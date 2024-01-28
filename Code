@@ -1,0 +1,85 @@
+#Hangman Game
+import os, time, random
+
+print("Welcome to Hangman!")
+print("-------------------")
+print()
+time.sleep(2)
+os.system('clear')
+
+response = input("Are you Valorent Player? ")
+
+if response.strip().lower() == "yes":
+
+    print("Let's Play!!")
+    time.sleep(1)
+    os.system('clear')
+    listofwords = ["Breach", "Sova", "Viper", "Cypher", "Killjoy", "Sage", "Phoenix", "Jett", "Yoru", "Reyna", "Raze", "Omen", "Brimstone", "Astra", "Skye", "Kay/O", "Chamber", "Neon", "Fade", "Harbor", "Gekko", "Deadlock"]
+
+    hint = ["Off your feet", "I am the hunter", "Welcome to my world", "Give me a corpse", "You should run", "Your duty is not over", "Joke’s over, you’re dead", "Get out of my way", "Who’s next ", "The hunt begins", "Fire in the hole", "Watch them run", "Deep fried", "World divided", "Seek them out", "No one walks away", "You want to play? Let’s play", "Hoy! I’m pissed", "Nightmare, take them", "I suggest you move", "It's all you, lil homie ", "Pull them to their grave"]
+
+    letterpicked = []
+    lives = 6
+
+    wordChosen = random.choice(listofwords)
+    wordHint = hint[listofwords.index(wordChosen)]
+
+    while True:
+        time.sleep(3)
+        os.system('clear')
+
+        # Display guessed letters and hint
+        print("Guessed Letters: ", ', '.join(letterpicked))
+        print("Hint: ", wordHint)
+        print()
+
+        guess = input("Choose a letter or guess the entire word: ").lower()
+
+        if len(guess) == 1:  # Guessing a letter
+            if guess in letterpicked:
+                print("You've tried that before")
+                continue
+            letterpicked.append(guess)
+
+            if guess in wordChosen:
+                print("You found a letter!")
+            else:
+                print("Nope, not in there")
+                lives -= 1
+        elif len(guess) > 1 and guess.isalpha():  # Guessing the entire word
+            if guess.lower() == wordChosen.lower():
+                print(f"Congratulations! You guessed the entire word: {wordChosen}")
+                break
+            else:
+                print("Incorrect guess. Try again.")
+                lives -= 1
+        else:
+            print("Invalid input. Please enter a single letter or guess the entire word.")
+
+        # Display the word with blanks
+        allLetters = True
+        print()
+        for char in wordChosen:
+            if char.lower() in letterpicked:
+                print(char, end="")
+            elif char.isalpha():
+                print("_", end="")
+                allLetters = False
+            else:
+                print(char, end="")  # Preserve non-letter characters like hyphens
+
+        print()
+
+        if allLetters:
+            print(f"You won with {lives} lives left!")
+            break
+
+        if lives <= 0:
+            print(f"You ran out of lives :( The answer was {wordChosen}")
+            break
+        else:
+            print(f"Only {lives} lives left")
+
+else:
+    print("Thanks for Your Time!")
+    exit()
